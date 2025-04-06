@@ -3,6 +3,7 @@ package com.universidad.crud.controller;
 import com.universidad.crud.model.Estudiante;
 import com.universidad.crud.service.EstudianteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,8 +21,12 @@ public class EstudianteController {
     }
 
     @GetMapping("/{id}")
-    public Estudiante obtener(@PathVariable Long id) {
-        return service.obtenerPorId(id);
+    public ResponseEntity<Estudiante> obtener(@PathVariable Long id) {
+        Estudiante estudiante = service.obtenerPorId(id);
+        if (estudiante == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(estudiante);
     }
 
     @GetMapping
