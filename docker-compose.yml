@@ -1,0 +1,32 @@
+services:
+  mariadb-parcial:
+    image: mariadb:11.1
+    container_name: mariadb-parcial
+    environment:
+      MARIADB_DATABASE: universidad_db
+      MARIADB_USER: springuser
+      MARIADB_PASSWORD: springpass
+      MARIADB_ROOT_PASSWORD: rootpass
+    ports:
+      - "3306:3306"
+    networks:
+      - backend
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+  crud-app:
+    build: .
+    container_name: crud-app
+    depends_on:
+      - mariadb-parcial
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+
+volumes:
+  mariadb_data:
+
+networks:
+  backend:
+

@@ -1,0 +1,9 @@
+target/
+*.iml
+.idea/
+*.log
+*.md
+.DS_Store
+.git
+.gitignore
+docker-compose.yml
