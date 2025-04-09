@@ -13,20 +13,28 @@ services:
       - backend
     volumes:
       - mariadb_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mariadb", "-h", "127.0.0.1", "-uroot", "-prootpass", "-e", "SELECT 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   crud-app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: jessikaguti/jsuazag:latest
     container_name: crud-app
     depends_on:
-      - mariadb-parcial
+      mariadb-parcial:
+        condition: service_healthy
     ports:
       - "8080:8080"
     networks:
       - backend
 
-volumes:
-  mariadb_data:
-
 networks:
   backend:
 
+volumes:
+  mariadb_data:

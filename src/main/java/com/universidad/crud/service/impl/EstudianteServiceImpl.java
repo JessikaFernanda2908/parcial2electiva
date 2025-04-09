@@ -16,7 +16,13 @@ public class EstudianteServiceImpl implements EstudianteService {
 
     @Override
     public Estudiante crear(Estudiante estudiante) {
+
+        if (estudiante.getId() == null) {
+            Long maxId = repository.findMaxId(); // Necesitarás implementar este método en tu repositorio
+            estudiante.setId((maxId == null ? 1 : maxId + 1));
+        }
         return repository.save(estudiante);
+
     }
 
     @Override
